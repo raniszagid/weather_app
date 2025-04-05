@@ -1,3 +1,4 @@
+jwt_secret: "secret"
 spring:
   application:
     name: weather
