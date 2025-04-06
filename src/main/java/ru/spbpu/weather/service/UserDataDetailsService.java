@@ -1,5 +1,6 @@
 package ru.spbpu.weather.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,14 +12,10 @@ import ru.spbpu.weather.security.UserDataDetails;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class UserDataDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserDataDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
