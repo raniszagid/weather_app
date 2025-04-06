@@ -1,5 +1,6 @@
 package ru.spbpu.weather.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,8 @@ public class RequestHistoryEntity {
     private String address;
     @Column(name = "request_timestamp")
     private LocalDateTime requestTimestamp;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

@@ -3,6 +3,7 @@ package ru.spbpu.weather.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.spbpu.weather.model.RequestHistoryEntity;
+import ru.spbpu.weather.model.User;
 import ru.spbpu.weather.repository.RequestRepository;
 
 import java.util.List;
@@ -17,5 +18,9 @@ public class RequestService {
 
     public List<RequestHistoryEntity> findAll() {
         return requestRepository.findAll();
+    }
+
+    public List<RequestHistoryEntity> findCurrentUser(User user) {
+        return requestRepository.findRequestHistoryEntitiesByUser(user);
     }
 }
