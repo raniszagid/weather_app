@@ -1,7 +1,11 @@
 package ru.spbpu.weather.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.spbpu.weather.model.RequestHistoryEntity;
@@ -27,5 +31,10 @@ public class HistoryController {
             return requestService.findCurrentUser(optionalUser.get());
         }
         return Collections.emptyList();
+    }
+
+    @PostMapping("/favourite")
+    public HttpEntity<String> addFavourite() {
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 }
