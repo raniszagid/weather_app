@@ -23,7 +23,6 @@ public class RequestService {
         requestRepository.save(request);
         weatherRepository.save(weather);
         dayRepository.saveAll(forecast);
-
     }
 
     public List<RequestHistoryEntity> findAll() {

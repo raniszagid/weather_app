@@ -1,6 +1,7 @@
 package ru.spbpu.weather.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import ru.spbpu.weather.util.WeatherMapper;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/weather")
@@ -33,20 +35,24 @@ public class WeatherController {
 
     @PostMapping
     public String makeSearch(Model model, @RequestParam("city") String city) throws Exception {
+        log.info("City: {}", city);
         RequestHistoryEntity request = new RequestHistoryEntity();
         request.setAddress(city);
         request.setRequestTimestamp(LocalDateTime.now());
         Optional<User> optionalUser = userService.getCurrentUser();
         optionalUser.ifPresent(request::setUser);
         WeatherDto weatherDto = ApiService.makeRequest(city);
+        log.info("Result: {}", weatherDto);
         Weather weather = weatherMapper.toWeatherEntity(weatherDto);
         requestService.save(request, weather, weatherMapper.getForecast(weatherDto, weather));
         model.addAttribute("result", weatherDto);
+
         return "index";
     }
 
     @ExceptionHandler
     private ResponseEntity<String> handleException(RuntimeException e) {
+        log.error(e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

@@ -20,4 +20,14 @@ public class WeatherDto {
     private String description;
     @JsonProperty("forecast")
     private List<DayDto> forecast;
+
+    @Override
+    public String toString() {
+        return "{" +
+                "temperature='" + temperature + '\'' +
+                ", wind='" + wind + '\'' +
+                ", description='" + description + '\'' +
+                ", forecast=" + forecast +
+                '}';
+    }
 }

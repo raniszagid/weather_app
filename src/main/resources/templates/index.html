@@ -7,7 +7,7 @@
 <body>
 <form th:method="POST" th:action="@{/weather}">
     <label for="city">Enter city</label>
-    <input type="text" id="city" name="city">
+    <input type="text" id="city" name="city" required>
     <br/>
     <input type="submit" value="Search!"/>
 </form>
@@ -21,9 +21,6 @@
         <p th:text="${'Температура ' + day.getTemperature()}"></p>
         <p th:text="${'Ветер ' + day.getWind()}"></p>
     </div>
-    <form th:method="POST" th:action="@{/history}">
-
-    </form>
 </div>
 </body>
 </html>

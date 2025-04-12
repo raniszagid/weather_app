@@ -15,4 +15,13 @@ public class DayDto {
     private String temperature;
     @JsonProperty("wind")
     private String wind;
+
+    @Override
+    public String toString() {
+        return "{" +
+                "day='" + day + '\'' +
+                ", temperature='" + temperature + '\'' +
+                ", wind='" + wind + '\'' +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package ru.spbpu.weather.util;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.spbpu.weather.dto.DayDto;
 import ru.spbpu.weather.dto.RequestDto;
@@ -12,8 +13,10 @@ import ru.spbpu.weather.repository.DayRepository;
 import ru.spbpu.weather.repository.WeatherRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class WeatherMapper {
@@ -45,7 +48,7 @@ public class WeatherMapper {
     }
 
     public List<Day> getForecast(WeatherDto dto, Weather entity) {
-        return dto.getForecast().stream().map(d -> toDayEntity(d, entity)).toList();
+        return dto.getForecast().stream().map(d -> toDayEntity(d, entity)).filter(Objects::nonNull).toList();
     }
 
     public WeatherDto toWeatherDto(Weather entity) {
@@ -61,16 +64,20 @@ public class WeatherMapper {
     }
     private Day toDayEntity(DayDto dto, Weather weather) {
         int dayNumber = Integer.parseInt(dto.getDay());
-        String[] temperatureArray = dto.getTemperature().split(" ");
-        int temperatureNumber = Integer.parseInt(temperatureArray[0]);
-        String[] windArray = dto.getWind().split(" ");
-        int windNumber = Integer.parseInt(windArray[0]);
-        Day day = new Day();
-        day.setTemperature(temperatureNumber);
-        day.setDay(dayNumber);
-        day.setWind(windNumber);
-        day.setWeather(weather);
-        return day;
+        try {
+            String[] temperatureArray = dto.getTemperature().split(" ");
+            int temperatureNumber = Integer.parseInt(temperatureArray[0]);
+            String[] windArray = dto.getWind().split(" ");
+            int windNumber = Integer.parseInt(windArray[0]);
+            Day day = new Day();
+            day.setTemperature(temperatureNumber);
+            day.setDay(dayNumber);
+            day.setWind(windNumber);
+            day.setWeather(weather);
+            return day;
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     private DayDto toDayDto(Day entity) {
