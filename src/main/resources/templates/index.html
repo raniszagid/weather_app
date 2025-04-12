@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/weather}">
+    <label for="city">Enter city</label>
+    <input type="text" id="city" name="city">
+    <br/>
+    <input type="submit" value="Search!"/>
+</form>
+
+<div th:if="${result}">
+    <p th:text="${'Температура ' + result.getTemperature()}"></p>
+    <p th:text="${'Ветер ' + result.getWind()}"></p>
+    <p th:text="${'Описание ' + result.getDescription()}"></p>
+    <div th:each="day : ${result.getForecast()}">
+        <p th:text="${'День ' + day.getDay()}"></p>
+        <p th:text="${'Температура ' + day.getTemperature()}"></p>
+        <p th:text="${'Ветер ' + day.getWind()}"></p>
+    </div>
+
+</div>
+</body>
+</html>
