@@ -1,17 +1,28 @@
 package ru.spbpu.weather.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
+@Entity
+@Table(name = "weather")
 public class Weather {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "temperature")
     private int temperature;
+    @Column(name = "wind")
     private int wind;
+    @Column(name = "description")
     private String description;
-    private List<Day> forecast;
+    //private List<Day> forecast;
+    @OneToOne
+    @JoinColumn(name = "request_id", referencedColumnName = "id")
+    private RequestHistoryEntity request;
 }

@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.spbpu.weather.dto.WeatherDto;
 import ru.spbpu.weather.model.RequestHistoryEntity;
 import ru.spbpu.weather.model.User;
+import ru.spbpu.weather.model.Weather;
 import ru.spbpu.weather.service.ApiService;
 import ru.spbpu.weather.service.RequestService;
 import ru.spbpu.weather.service.UserService;
+import ru.spbpu.weather.util.WeatherMapper;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class WeatherController {
     private final RequestService requestService;
     private final UserService userService;
+    private final WeatherMapper weatherMapper;
 
     @GetMapping
     public String getIndex() {
@@ -35,8 +38,10 @@ public class WeatherController {
         request.setRequestTimestamp(LocalDateTime.now());
         Optional<User> optionalUser = userService.getCurrentUser();
         optionalUser.ifPresent(request::setUser);
-        requestService.save(request);
-        model.addAttribute("result", ApiService.makeRequest(city));
+        WeatherDto weatherDto = ApiService.makeRequest(city);
+        Weather weather = weatherMapper.toWeatherEntity(weatherDto);
+        requestService.save(request, weather, weatherMapper.getForecast(weatherDto, weather));
+        model.addAttribute("result", weatherDto);
         return "index";
     }
 

@@ -21,7 +21,9 @@
         <p th:text="${'Температура ' + day.getTemperature()}"></p>
         <p th:text="${'Ветер ' + day.getWind()}"></p>
     </div>
+    <form th:method="POST" th:action="@{/history}">
 
+    </form>
 </div>
 </body>
 </html>
