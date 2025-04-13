@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+</head>
+<body>
+<div th:each="request : ${history}">
+<p th:text="${'Город: ' + request.getCity() + ', ' + request.getTimestamp()}"></p>
+    <p style="margin-left: 20px;" th:text="${'Температура: ' + request.getMainTemperature()}"></p>
+    <p style="margin-left: 20px;" th:text="${'Ветер: ' + request.getMainWind()}"></p>
+    <p style="margin-left: 20px;" th:text="${'Описание: ' + request.getDescription()}"></p>
+    <div style="margin-left: 20px;" th:each="elem : ${request.getForecast()}">
+        <p style="margin-left: 20px;" th:text="${'День ' + elem.getDay() + ': ' +
+        elem.getTemperature() + ', ' + elem.getWind}"></p>
+    </div>
+</div>
+</body>
+</html>

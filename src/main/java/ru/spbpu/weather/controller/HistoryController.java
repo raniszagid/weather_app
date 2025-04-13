@@ -6,6 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.spbpu.weather.dto.RequestDto;
@@ -20,17 +21,20 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@RestController
-//@Controller
+//@RestController
+@Controller
 @RequestMapping("/history")
 public class HistoryController {
     private final RequestService requestService;
     private final UserService userService;
     private final WeatherMapper mapper;
     @GetMapping
-    public List<RequestDto> getHistory() {
+    public String getHistory(Model model) {
         Optional<User> optionalUser = userService.getCurrentUser();
-        return optionalUser.map(user -> requestService.findCurrentUserRequests(user).stream().map(mapper::toRequestDto).toList()).orElse(Collections.emptyList());
+        model.addAttribute("history",
+                optionalUser.map(user -> requestService.findCurrentUserRequests(user).stream()
+                        .map(mapper::toRequestDto).toList()).orElse(Collections.emptyList()));
+        return "history";
     }
 
 
