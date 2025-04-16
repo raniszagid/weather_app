@@ -1,16 +1,16 @@
 package ru.spbpu.weather.security;
 
-
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.spbpu.weather.model.User;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Getter
 public class UserDataDetails implements UserDetails {
-    private final User user;
+    private final transient User user;
 
     public UserDataDetails(User user) {
         this.user = user;
@@ -18,7 +18,7 @@ public class UserDataDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

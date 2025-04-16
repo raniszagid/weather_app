@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -19,15 +18,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                //.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> {
-                    auth
-                            .requestMatchers("/auth/login",
-                                    "/auth/registration","/error")
-                            .permitAll()
-                            .anyRequest().authenticated()
-                    ;
-                }).formLogin(formLogin ->
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/login","/auth/registration","/error")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(formLogin ->
                         formLogin.loginPage("/auth/login")
                                 .loginProcessingUrl("/process_login")
                                 .defaultSuccessUrl("/weather", true)

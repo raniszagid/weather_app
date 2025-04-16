@@ -18,7 +18,9 @@ public class UserService {
 
     public boolean loggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails;
+        return authentication != null
+                && authentication.isAuthenticated()
+                && authentication.getPrincipal() instanceof UserDetails;
     }
 
     public Optional<User> getCurrentUser() {

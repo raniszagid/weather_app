@@ -1,7 +1,6 @@
 package ru.spbpu.weather.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -18,10 +17,12 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "username", unique = true)
     @NotNull
     @NotEmpty
     private String username;
+
     @Column(name = "password")
     private String password;
 

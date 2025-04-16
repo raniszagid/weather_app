@@ -14,10 +14,13 @@ import java.util.List;
 public class WeatherDto {
     @JsonProperty("temperature")
     private String temperature;
+
     @JsonProperty("wind")
     private String wind;
+
     @JsonProperty("description")
     private String description;
+
     @JsonProperty("forecast")
     private List<DayDto> forecast;
 

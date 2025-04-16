@@ -18,6 +18,7 @@ public class RequestService {
     private final RequestRepository requestRepository;
     private final WeatherRepository weatherRepository;
     private final DayRepository dayRepository;
+
     public void save(RequestHistoryEntity request, Weather weather, List<Day> forecast) {
         weather.setRequest(request);
         requestRepository.save(request);

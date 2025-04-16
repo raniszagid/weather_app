@@ -3,8 +3,6 @@ package ru.spbpu.weather.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,13 +13,16 @@ public class Weather {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "temperature")
     private int temperature;
+
     @Column(name = "wind")
     private int wind;
+
     @Column(name = "description")
     private String description;
-    //private List<Day> forecast;
+
     @OneToOne
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     private RequestHistoryEntity request;

@@ -20,8 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class WeatherMapper {
-    private static final String temperatureUnit = " °C";
-    private static final String windUnit = " km/h";
+    private static final String TEMPERATURE_UNIT = " °C";
+    private static final String WIND_UNIT = " km/h";
     private final WeatherRepository weatherRepository;
     private final DayRepository dayRepository;
 
@@ -52,8 +52,8 @@ public class WeatherMapper {
     }
 
     public WeatherDto toWeatherDto(Weather entity) {
-        String temperatureString = temperatureSymbol(entity.getTemperature()) + entity.getTemperature() + temperatureUnit;
-        String windString = entity.getWind() + windUnit;
+        String temperatureString = temperatureSymbol(entity.getTemperature()) + entity.getTemperature() + TEMPERATURE_UNIT;
+        String windString = entity.getWind() + WIND_UNIT;
         List<DayDto> list = dayRepository.findDaysByWeatherId(entity.getId()).stream().map(this::toDayDto).toList();
         return WeatherDto.builder()
                 .temperature(temperatureString)
@@ -71,7 +71,7 @@ public class WeatherMapper {
             int windNumber = Integer.parseInt(windArray[0]);
             Day day = new Day();
             day.setTemperature(temperatureNumber);
-            day.setDay(dayNumber);
+            day.setDate(dayNumber);
             day.setWind(windNumber);
             day.setWeather(weather);
             return day;
@@ -81,10 +81,10 @@ public class WeatherMapper {
     }
 
     private DayDto toDayDto(Day entity) {
-        String temperatureString = temperatureSymbol(entity.getTemperature()) + entity.getTemperature() + temperatureUnit;
-        String windString = entity.getWind() + windUnit;
+        String temperatureString = temperatureSymbol(entity.getTemperature()) + entity.getTemperature() + TEMPERATURE_UNIT;
+        String windString = entity.getWind() + WIND_UNIT;
         return DayDto.builder()
-                .day(String.valueOf(entity.getDay()))
+                .day(String.valueOf(entity.getDate()))
                 .temperature(temperatureString)
                 .wind(windString)
                 .build();

@@ -9,8 +9,6 @@ import ru.spbpu.weather.model.User;
 import ru.spbpu.weather.repository.UserRepository;
 import ru.spbpu.weather.security.UserDataDetails;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class UserDataDetailsService implements UserDetailsService {
@@ -18,15 +16,13 @@ public class UserDataDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(s);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return new UserDataDetails(user.get());
+        User user = userRepository.findByUsername(s)
+                .orElseThrow(() -> new UsernameNotFoundException("User '%s' not found".formatted(s)));
+
+        return new UserDataDetails(user);
     }
 
-    public boolean check(String s) {
-        Optional<User> user = userRepository.findByUsername(s);
-        return user.isEmpty();
+    public boolean isExist(String s) {
+        return userRepository.findByUsername(s).isEmpty();
     }
 }

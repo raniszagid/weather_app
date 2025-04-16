@@ -11,8 +11,10 @@ import lombok.*;
 public class DayDto {
     @JsonProperty("day")
     private String day;
+
     @JsonProperty("temperature")
     private String temperature;
+
     @JsonProperty("wind")
     private String wind;
 
