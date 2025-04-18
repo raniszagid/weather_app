@@ -8,11 +8,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 public class ApiService {
     private ApiService() {}
 
-    public static WeatherDto makeRequest(String city) throws IOException {
+    public static Optional<WeatherDto> makeRequest(String city) {
         try (HttpClient httpClient = HttpClient.newHttpClient()) {
             String url = "http://goweather.xyz/weather/" + city;
             HttpRequest request = HttpRequest.newBuilder()
@@ -24,13 +25,18 @@ public class ApiService {
                     HttpResponse.BodyHandlers.ofString()
             );
 
-            String json = response.body();
+            if (response.statusCode() != 200) {
+                return Optional.empty();
+            }
 
+            String json = response.body();
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(json, WeatherDto.class);
+            return Optional.of(objectMapper.readValue(json, WeatherDto.class));
+        } catch (IOException e) {
+            return Optional.empty();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            return new WeatherDto();
+            return Optional.empty();
         }
     }
 }

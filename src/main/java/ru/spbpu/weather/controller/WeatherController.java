@@ -17,6 +17,7 @@ import ru.spbpu.weather.service.UserService;
 import ru.spbpu.weather.util.WeatherMapper;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -34,14 +35,15 @@ public class WeatherController {
     }
 
     @PostMapping
-    public String makeSearch(Model model, @RequestParam("city") String city) throws Exception {
+    public String makeSearch(Model model, @RequestParam("city") String city) {
         log.info("City: {}", city);
         RequestHistoryEntity request = new RequestHistoryEntity();
         request.setAddress(city);
         request.setRequestTimestamp(LocalDateTime.now());
         Optional<User> optionalUser = userService.getCurrentUser();
         optionalUser.ifPresent(request::setUser);
-        WeatherDto weatherDto = ApiService.makeRequest(city);
+        WeatherDto weatherDto = ApiService.makeRequest(city)
+                .orElseThrow(() -> new NoSuchElementException("City not found"));
         log.info("Result: {}", weatherDto);
         Weather weather = weatherMapper.toWeatherEntity(weatherDto);
         requestService.save(request, weather, weatherMapper.getForecast(weatherDto, weather));
