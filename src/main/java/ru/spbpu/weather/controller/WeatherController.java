@@ -3,10 +3,10 @@ package ru.spbpu.weather.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.spbpu.weather.dto.WeatherDto;
 import ru.spbpu.weather.model.RequestHistoryEntity;
 import ru.spbpu.weather.model.User;
@@ -53,8 +53,11 @@ public class WeatherController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<String> handleException(RuntimeException e) {
-        log.error(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ModelAndView handleException(RuntimeException e) {
+        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("errorMessage", e.getMessage());
+        mav.addObject("status", HttpStatus.BAD_REQUEST);
+        mav.setStatus(HttpStatus.BAD_REQUEST);
+        return mav;
     }
 }
