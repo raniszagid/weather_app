@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WeatherMapperTests {
+class WeatherMapperTests {
     @Test
     void testMapping() {
 
