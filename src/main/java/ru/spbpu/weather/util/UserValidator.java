@@ -20,7 +20,7 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User person = (User) target;
-        if (!service.isExist(person.getUsername())) {
+        if (service.isExist(person.getUsername())) {
             errors.rejectValue("username", "",
                     "Person with current username already exists");
         }

@@ -23,6 +23,6 @@ public class UserDataDetailsService implements UserDetailsService {
     }
 
     public boolean isExist(String s) {
-        return userRepository.findByUsername(s).isEmpty();
+        return userRepository.findByUsername(s).isPresent();
     }
 }
