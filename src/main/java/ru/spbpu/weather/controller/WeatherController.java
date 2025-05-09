@@ -28,6 +28,7 @@ public class WeatherController {
     private final RequestService requestService;
     private final UserService userService;
     private final WeatherMapper weatherMapper;
+    private final ApiService apiService;
 
     @GetMapping
     public String getIndex() {
@@ -42,7 +43,7 @@ public class WeatherController {
         request.setRequestTimestamp(LocalDateTime.now());
         Optional<User> optionalUser = userService.getCurrentUser();
         optionalUser.ifPresent(request::setUser);
-        WeatherDto weatherDto = ApiService.makeRequest(city)
+        WeatherDto weatherDto = apiService.makeRequest(city)
                 .orElseThrow(() -> new NoSuchElementException("City not found"));
         log.info("Result: {}", weatherDto);
         Weather weather = weatherMapper.toWeatherEntity(weatherDto);

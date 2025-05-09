@@ -1,6 +1,8 @@
 package ru.spbpu.weather.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.spbpu.weather.dto.WeatherDto;
 
 import java.io.IOException;
@@ -10,10 +12,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
 
+@Service
+@NoArgsConstructor
 public class ApiService {
-    private ApiService() {}
-
-    public static Optional<WeatherDto> makeRequest(String city) {
+    public Optional<WeatherDto> makeRequest(String city) {
         try (HttpClient httpClient = HttpClient.newHttpClient()) {
             String url = "http://goweather.xyz/weather/" + city;
             HttpRequest request = HttpRequest.newBuilder()
