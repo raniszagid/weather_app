@@ -1,4 +1,4 @@
-package ru.spbpu.weather.util;
+package ru.spbpu.weather.util.unit;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.validation.BindingResult;
@@ -14,6 +13,8 @@ import ru.spbpu.weather.controller.AuthController;
 import ru.spbpu.weather.model.User;
 import ru.spbpu.weather.security.SecurityConfig;
 import ru.spbpu.weather.service.RegistrationService;
+import ru.spbpu.weather.util.UserValidator;
+import ru.spbpu.weather.util.testconfig.UnitTestConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,12 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import({TestSecurityConfig.class, SecurityConfig.class})
+@Import({UnitTestConfig.class, SecurityConfig.class})
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = {
-				AuthController.class,
-				SecurityConfig.class
-})
 class AuthControllerTest {
 
 	@Autowired
