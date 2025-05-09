@@ -1,9 +1,10 @@
-package ru.spbpu.weather.util;
+package ru.spbpu.weather.util.unit;
 
 import org.junit.jupiter.api.Test;
 import ru.spbpu.weather.dto.DayDto;
 import ru.spbpu.weather.dto.WeatherDto;
 import ru.spbpu.weather.model.Weather;
+import ru.spbpu.weather.util.WeatherMapper;
 
 import java.util.List;
 
