@@ -24,14 +24,20 @@ public class UserService {
     }
 
     public Optional<User> getCurrentUser() {
-        if (loggedIn()) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDataDetails personDetails = (UserDataDetails) authentication.getPrincipal();
-            String username = personDetails.getUsername();
-            return userRepository.findByUsername(username);
-        }
-        else {
+        if (!loggedIn()) {
             return Optional.empty();
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDataDetails userDataDetails) {
+            return Optional.of(userDataDetails.getUser());
+        } else if (principal instanceof org.springframework.security.core.userdetails.User springUser) {
+            String username = springUser.getUsername();
+            return userRepository.findByUsername(username);
+        }
+
+        return Optional.empty();
     }
 }
